@@ -1,5 +1,5 @@
 
-############################################################################################# Data Preparation ##############################################################################################################################
+########################################################### Data Preparation ###########################################################################
 
 Note: This section explains how the 30 datasets used in this analysis were prepared from the raw data, prior to conducting analysis. Follow these steps to obtain response variables (binary co-occurrence data for each community) and the predictor variables (prior to running PCA analysis for standaradising across all communities, but in a format that is readable by the PCA function). 
 
@@ -14,7 +14,7 @@ Note: This section explains how the 30 datasets used in this analysis were prepa
   
 
 
-############################################################################################# Guide for Workflow ############################################################################################################################
+######################################################## Guide for Workflow ###########################################################################
 
 
 
@@ -134,17 +134,58 @@ Note: The purpose of this script is to merge the predictions for visualising res
 
 
 
-############################################################################################# Visualising Results ##########################################################################################################################
+############################################################ Visualising Results##########################################################################
 
 STEP E: use to visualise dataset similarity using PCA analysis 
 STEP F: visualise feature distributions (histograms and scatterplots) 
 STEP G: visualise boxplots and net improvement tables for the training data after Step 2 
 STEP H: visualise feature relative importance (heatmaps) and response functions after training ensemble (Step 3) 
 STEP I: visualise the boxplots and net improvement tables for the testing data after Step 4
+STEP J: calculating deviance residuals as performance metric from probability predictions after Step 4 
+STEP K: calculating accuracy as performance metric from binary predictions with a 0.5 threshold after Step 4 
 
 
 ################################################################## R Packages and versions used #########################################################
 
-******************* List here all the versions used for running analysis **************************
+> sessionInfo()
+R version 4.0.2 (2020-06-22)
+Platform: x86_64-w64-mingw32/x64 (64-bit)
+Running under: Windows 10 x64 (build 19043)
 
+Matrix products: default
+
+locale:
+[1] LC_COLLATE=English_Australia.1252  LC_CTYPE=English_Australia.1252    LC_MONETARY=English_Australia.1252
+[4] LC_NUMERIC=C                       LC_TIME=English_Australia.1252    
+
+attached base packages:
+[1] parallel  stats     graphics  grDevices utils     datasets  methods   base     
+
+other attached packages:
+ [1] StatMeasures_1.0       gridExtra_2.3          cowplot_1.1.1          viridis_0.6.2          viridisLite_0.4.0     
+ [6] devtools_2.3.2         usethis_2.0.1          factoextra_1.0.7       Rcpp_1.0.8.3           forcats_0.5.1         
+[11] stringr_1.4.0          readr_1.4.0            tidyr_1.1.3            tibble_3.0.6           tidyverse_1.3.0       
+[16] gjam_2.3.6             dplyr_1.0.5            MRFcov_1.0.38          glmnet_4.1             Matrix_1.2-18         
+[21] Hmsc_3.0-11            coda_0.19-4            randomForestSRC_2.11.0 purrr_0.3.4            mgcv_1.8-35           
+[26] nlme_3.1-152           gbm_2.1.8              caret_6.0-86           ggplot2_3.3.5          lattice_0.20-41       
+
+loaded via a namespace (and not attached):
+  [1] colorspace_2.0-0     ellipsis_0.3.1       class_7.3-17         rprojroot_2.0.2      fs_1.5.0             rstudioapi_0.13     
+  [7] remotes_2.2.0        MatrixModels_0.4-1   ggrepel_0.9.1        prodlim_2019.11.13   fansi_0.4.2          lubridate_1.7.9.2   
+ [13] xml2_1.3.2           codetools_0.2-16     splines_4.0.2        cachem_1.0.3         pkgload_1.2.0        spam_2.6-0          
+ [19] jsonlite_1.7.2       pROC_1.17.0.1        mcmc_0.9-7           broom_0.7.5          dbplyr_2.1.0         data.tree_1.0.0     
+ [25] DiagrammeR_1.0.6.1   compiler_4.0.2       httr_1.4.2           backports_1.2.1      fastmap_1.1.0        assertthat_0.2.1    
+ [31] cli_2.3.1            prettyunits_1.1.1    visNetwork_2.0.9     htmltools_0.5.1.1    quantreg_5.83        tools_4.0.2         
+ [37] dotCall64_1.0-1      gtable_0.3.0         glue_1.4.2           RANN_2.6.1           reshape2_1.4.4       maps_3.3.0          
+ [43] tinytex_0.29         cellranger_1.1.0     vctrs_0.3.6          ape_5.4-1            conquer_1.0.2        iterators_1.0.13    
+ [49] timeDate_3043.102    gower_0.2.2          xfun_0.21            ps_1.6.0             testthat_3.0.2       rvest_0.3.6         
+ [55] lifecycle_1.0.0      statmod_1.4.35       MASS_7.3-51.6        scales_1.1.1         ipred_0.9-9          hms_1.0.0           
+ [61] SparseM_1.78         RColorBrewer_1.1-2   fields_11.6          memoise_2.0.0        rpart_4.1-15         stringi_1.5.3       
+ [67] desc_1.2.0           foreach_1.5.1        pkgbuild_1.2.0       lava_1.6.8.1         truncnorm_1.0-8      shape_1.4.5         
+ [73] rlang_0.4.10         pkgconfig_2.0.3      matrixStats_0.58.0   pracma_2.3.3         recipes_0.1.15       htmlwidgets_1.5.3   
+ [79] processx_3.4.5       tidyselect_1.1.0     plyr_1.8.6           magrittr_2.0.1       R6_2.5.0             generics_0.1.0      
+ [85] BayesLogit_2.1       DBI_1.1.1            pillar_1.6.0         haven_2.3.1          withr_2.4.1          survival_3.1-12     
+ [91] abind_1.4-5          sp_1.4-5             nnet_7.3-14          modelr_0.1.8         crayon_1.4.1         utf8_1.1.4          
+ [97] grid_4.0.2           readxl_1.3.1         data.table_1.14.0    callr_3.5.1          FNN_1.1.3            ModelMetrics_1.2.2.2
+[103] reprex_1.0.0         digest_0.6.27        MCMCpack_1.5-0       stats4_4.0.2         munsell_0.5.0        sessioninfo_1.1.1 
 
