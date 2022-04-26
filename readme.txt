@@ -1,5 +1,5 @@
 
-########################################################### Data Preparation ###########################################################################
+#################### Data Preparation ####################
 
 Note: This section explains how the 30 datasets used in this analysis were prepared from the raw data, prior to conducting analysis. Follow these steps to obtain response variables (binary co-occurrence data for each community) and the predictor variables (prior to running PCA analysis for standaradising across all communities, but in a format that is readable by the PCA function). 
 
@@ -14,7 +14,7 @@ Note: This section explains how the 30 datasets used in this analysis were prepa
   
 
 
-######################################################## Guide for Workflow ###########################################################################
+#################### Guide for Workflow ####################
 
 
 
@@ -134,7 +134,7 @@ Note: The purpose of this script is to merge the predictions for visualising res
 
 
 
-############################################################ Visualising Results##########################################################################
+#################### Visualising Results ####################
 
 STEP E: use to visualise dataset similarity using PCA analysis 
 STEP F: visualise feature distributions (histograms and scatterplots) 
@@ -145,7 +145,7 @@ STEP J: calculating deviance residuals as performance metric from probability pr
 STEP K: calculating accuracy as performance metric from binary predictions with a 0.5 threshold after Step 4 
 
 
-################################################################## R Packages and versions used #########################################################
+#################### R Packages and versions used ####################
 
 > sessionInfo()
 R version 4.0.2 (2020-06-22)
